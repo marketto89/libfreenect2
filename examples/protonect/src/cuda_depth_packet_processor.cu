@@ -785,11 +785,11 @@ public:
 
         cudaMemcpyAsync(ir_frame->data, buf_ir, ir_frame_size, cudaMemcpyDeviceToHost);
 
-        thrust::device_ptr<float> dev_ptr_ir = thrust::device_pointer_cast(buf_ir);
-        float sum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, 0, thrust::plus<int>());
-        float maximum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, -1, thrust::maximum<float>());
-        float minimum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, 1, thrust::minimum<float>());
-        rescaleIr<<<grid_size, block_size>>>(buf_ir, minimum, maximum, buf_ir);
+        //thrust::device_ptr<float> dev_ptr_ir = thrust::device_pointer_cast(buf_ir);
+        //float sum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, 0, thrust::plus<int>());
+        //float maximum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, -1, thrust::maximum<float>());
+        //float minimum = thrust::reduce(dev_ptr_ir, dev_ptr_ir + image_size, 1, thrust::minimum<float>());
+        //rescaleIr<<<grid_size, block_size>>>(buf_ir, minimum, maximum, buf_ir);
 
 
         if (config.EnableBilateralFilter)
@@ -814,18 +814,18 @@ public:
         cudaMemcpyAsync(depth_frame->data, config.EnableEdgeAwareFilter ? buf_filtered : buf_depth, depth_frame_size,
                         cudaMemcpyDeviceToHost);
 
-        populateCloud<<<grid_size, block_size>>>(config.EnableEdgeAwareFilter ? buf_filtered : buf_depth,
-                                                 buf_ir,
-                                                 depth_frame->fx_,
-                                                 depth_frame->fy_,
-                                                 depth_frame->cx_,
-                                                 depth_frame->cy_,
-                                                 depth_frame->width,
-                                                 buf_point_cloud);
+        //populateCloud<<<grid_size, block_size>>>(config.EnableEdgeAwareFilter ? buf_filtered : buf_depth,
+        //                                         buf_ir,
+        //                                         depth_frame->fx_,
+        //                                         depth_frame->fy_,
+        //                                         depth_frame->cx_,
+        //                                         depth_frame->cy_,
+        //                                         depth_frame->width,
+        //                                         buf_point_cloud);
 
 
-        cudaMemcpyAsync(&depth_frame->cloud->points[0], buf_point_cloud, depth_frame->width * depth_frame->height
-                * sizeof(pcl::PointXYZRGB), cudaMemcpyDeviceToHost);
+        //cudaMemcpyAsync(&depth_frame->cloud->points[0], buf_point_cloud, depth_frame->width * depth_frame->height
+        //        * sizeof(pcl::PointXYZRGB), cudaMemcpyDeviceToHost);
 
         cudaDeviceSynchronize();
 

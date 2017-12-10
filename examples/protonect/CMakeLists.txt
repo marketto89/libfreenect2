@@ -115,7 +115,7 @@ SET(RESOURCES
 )
 
 IF(ENABLE_TEGRA_JPEG AND EXISTS "/etc/nv_tegra_release")
-  FIND_LIBRARY(TEGRA_JPEG_LIBRARY jpeg PATHS /usr/lib/arm-linux-gnueabihf/tegra NO_DEFAULT_PATH)
+  FIND_LIBRARY(TEGRA_JPEG_LIBRARY nvjpeg PATHS /usr/lib/arm-linux-gnueabihf/tegra NO_DEFAULT_PATH)
   IF(NOT TEGRA_JPEG_LIBRARY)
     MESSAGE(FATAL_ERROR "Did not find Tegra JPEG library")
   ENDIF(NOT TEGRA_JPEG_LIBRARY)
